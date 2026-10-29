@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="{{ lang or site.defaultLang }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if title %}{{ title }} · {% endif %}{{ site.title }}</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  {%- for link in page.url | locale_links %}
+  <link rel="alternate" hreflang="{{ link.lang }}" href="{{ link.url }}">
+  {%- endfor %}
+</head>
+<body class="min-h-screen flex flex-col bg-white text-slate-800 {{ bodyClass }}">
+  <header class="border-b border-slate-200">
+    <div class="mx-auto max-w-4xl px-4 py-4 flex items-center justify-between">
+      <a href="/{{ lang }}/" class="font-semibold text-lg">{{ site.title }}</a>
+      <nav class="flex gap-3 text-sm">
+        <span class="font-semibold">{{ site.languages[lang].label }}</span>
+        {%- for link in page.url | locale_links %}
+        <a href="{{ link.url }}" hreflang="{{ link.lang }}" lang="{{ link.lang }}" class="text-slate-500 hover:text-slate-900">{{ site.languages[link.lang].label }}</a>
+        {%- endfor %}
+      </nav>
+    </div>
+  </header>
+
+  {% if heroImage %}
+  <img src="{{ heroImage }}" alt="{{ heroAlt }}" class="w-full max-h-96 object-cover">
+  {% endif %}
+
+  <main class="flex-1 mx-auto w-full max-w-4xl px-4 py-10">
+    <article class="prose prose-slate max-w-none">
+      {{ content | safe }}
+    </article>
+  </main>
+
+  <footer class="border-t border-slate-200 text-sm text-slate-500">
+    <div class="mx-auto max-w-4xl px-4 py-6">© {{ site.year }} {{ site.title }}</div>
+  </footer>
+</body>
+</html>

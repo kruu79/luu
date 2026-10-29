@@ -1,0 +1,24 @@
+{
+  "name": "luu",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static website for laivinsunupite.lv",
+  "type": "module",
+  "scripts": {
+    "build": "eleventy && tailwindcss -i src/css/styles.css -o _site/css/styles.css --minify",
+    "start": "run-p dev:*",
+    "dev:eleventy": "eleventy --serve",
+    "dev:css": "tailwindcss -i src/css/styles.css -o _site/css/styles.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kruu79/luu.git"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.7",
+    "@tailwindcss/cli": "^4.3.3",
+    "@tailwindcss/typography": "^0.5.20",
+    "npm-run-all2": "^9.0.4",
+    "tailwindcss": "^4.3.3"
+  }
+}
