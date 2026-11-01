@@ -6,6 +6,17 @@ export default function (eleventyConfig) {
     defaultLanguage: "lv",
   });
 
+  // Links to the other languages: the translated page if it exists, otherwise that language's home.
+  eleventyConfig.addFilter("languageSwitch", (localeLinks, languages, current) =>
+    Object.keys(languages)
+      .filter((code) => code !== current)
+      .map((code) => ({
+        lang: code,
+        label: languages[code].label,
+        url: localeLinks.find((link) => link.lang === code)?.url ?? `/${code}/`,
+      })),
+  );
+
   eleventyConfig.addPassthroughCopy("src/img");
   eleventyConfig.addPassthroughCopy("src/CNAME");
 

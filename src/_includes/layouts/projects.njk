@@ -1,0 +1,44 @@
+---
+layout: layouts/base.njk
+---
+{%- macro num(i) %}{{ "0" if i < 10 }}{{ i }}{% endmacro -%}
+<main class="flex-1">
+  <section class="px-5 md:px-[clamp(20px,5vw,72px)] pt-[clamp(48px,7vw,112px)] pb-8 border-b-2 border-divider">
+    <h1 class="m-0 text-[clamp(40px,5.4vw,76px)] leading-[1.04]">{{ title }}</h1>
+  </section>
+
+  <nav aria-label="{{ indexLabel }}" class="px-5 md:px-[clamp(20px,5vw,72px)] border-b-2 border-divider">
+    {%- for p in projects %}
+    <a href="#projekts-{{ loop.index }}" class="grid grid-cols-[48px_minmax(0,1fr)_auto] gap-4 items-baseline py-3.5 border-b-2 border-neutral-200 last:border-b-0 text-[15px] leading-6">
+      <span class="text-accent-700 tabular-nums">{{ num(loop.index) }}</span>
+      <span>{{ p.title }} — {{ p.place }}</span>
+      <span class="text-ink/70">{{ p.year }}</span>
+    </a>
+    {%- endfor %}
+  </nav>
+
+  {%- for p in projects %}
+  <article id="projekts-{{ loop.index }}" class="scroll-mt-4 flex flex-wrap gap-x-[clamp(24px,4vw,72px)] gap-y-8 px-5 md:px-[clamp(20px,5vw,72px)] py-[clamp(40px,5vw,72px)] border-b-2 border-divider">
+    <div class="flex-[1_1_280px] flex flex-col gap-4 max-w-[44ch]">
+      <span class="text-[13px] tracking-[0.08em] uppercase text-accent-700">{{ num(loop.index) }} · {{ p.type }}</span>
+      <h2 class="m-0 text-[clamp(24px,2.6vw,34px)] leading-[1.15]">{{ p.title }}</h2>
+      <p class="m-0 text-[15px] leading-6 text-ink/80">{{ p.place }}, {{ p.year }}</p>
+    </div>
+    <div class="flex-[2_1_min(100%,480px)] min-w-0 aspect-[3/2]">
+      {%- if p.image %}
+      <img src="{{ p.image }}" alt="{{ p.title }}" class="grayscale-photo w-full h-full object-cover">
+      {%- else %}
+      <div class="w-full h-full grid place-items-center bg-surface text-[13px] tracking-[0.08em] uppercase text-ink/50">{{ imagePlaceholder }}</div>
+      {%- endif %}
+    </div>
+  </article>
+  {%- endfor %}
+
+  <section class="flex justify-between items-end flex-wrap gap-6 px-5 md:px-[clamp(20px,5vw,72px)] py-[clamp(40px,5vw,72px)] border-b-2 border-divider">
+    <div class="flex flex-col gap-3 max-w-[46ch]">
+      <h2 class="m-0 text-[clamp(24px,2.6vw,34px)] leading-[1.15]">{{ cta.title }}</h2>
+      <p class="m-0 text-[15px] leading-6 text-ink/80">{{ cta.text }}</p>
+    </div>
+    <a href="#kontakti" class="btn btn-primary">{{ cta.button }}</a>
+  </section>
+</main>

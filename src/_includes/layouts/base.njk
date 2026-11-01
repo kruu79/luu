@@ -2,9 +2,10 @@
 {%- set navItems = [
   ["#par-mums", t.nav.about],
   ["#pakalpojumi", t.nav.services],
-  ["#projekti", t.nav.projects],
+  [t.projectsHref, t.nav.projects],
   ["#kontakti", t.nav.contacts]
 ] -%}
+{%- set langLinks = page.url | locale_links | languageSwitch(site.languages, lang) -%}
 <!doctype html>
 <html lang="{{ lang or site.defaultLang }}">
 <head>
@@ -25,13 +26,13 @@
 
     <nav class="hidden md:flex items-center gap-[clamp(16px,3vw,40px)] text-[15px]">
       {%- for item in navItems %}
-      <a href="{{ item[0] }}">{{ item[1] }}</a>
+      <a href="{{ item[0] }}"{% if item[0] == page.url %} aria-current="page" class="text-accent"{% endif %}>{{ item[1] }}</a>
       {%- endfor %}
       <span class="flex items-center gap-1.5 pl-[clamp(8px,1.5vw,16px)] border-l-2 border-divider">
         <span class="px-0.5 py-1 font-bold text-accent" aria-current="true">{{ site.languages[lang].label }}</span>
-        {%- for link in page.url | locale_links %}
+        {%- for link in langLinks %}
         <span aria-hidden="true">/</span>
-        <a href="{{ link.url }}" hreflang="{{ link.lang }}" lang="{{ link.lang }}" class="px-0.5 py-1 text-ink/60">{{ site.languages[link.lang].label }}</a>
+        <a href="{{ link.url }}" hreflang="{{ link.lang }}" lang="{{ link.lang }}" class="px-0.5 py-1 text-ink/60">{{ link.label }}</a>
         {%- endfor %}
       </span>
     </nav>
@@ -45,12 +46,12 @@
 
   <div id="mobile-menu" hidden class="md:hidden fixed inset-x-0 top-16 bottom-0 z-20 bg-bg flex flex-col overflow-y-auto">
     {%- for item in navItems %}
-    <a href="{{ item[0] }}" class="flex items-center min-h-[72px] px-5 border-b-2 border-divider text-2xl font-bold">{{ item[1] }}</a>
+    <a href="{{ item[0] }}"{% if item[0] == page.url %} aria-current="page"{% endif %} class="flex items-center min-h-[72px] px-5 border-b-2 border-divider text-2xl font-bold aria-[current=page]:text-accent">{{ item[1] }}</a>
     {%- endfor %}
     <div class="flex items-center gap-1 p-5 text-[17px]">
       <span class="grid place-items-center min-w-11 min-h-11 border-2 border-divider bg-ink text-bg" aria-current="true">{{ site.languages[lang].label }}</span>
-      {%- for link in page.url | locale_links %}
-      <a href="{{ link.url }}" hreflang="{{ link.lang }}" lang="{{ link.lang }}" class="grid place-items-center min-w-11 min-h-11 border-2 border-divider">{{ site.languages[link.lang].label }}</a>
+      {%- for link in langLinks %}
+      <a href="{{ link.url }}" hreflang="{{ link.lang }}" lang="{{ link.lang }}" class="grid place-items-center min-w-11 min-h-11 border-2 border-divider">{{ link.label }}</a>
       {%- endfor %}
     </div>
     <div class="mt-auto p-5 flex flex-col gap-4">

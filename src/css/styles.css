@@ -5,6 +5,7 @@
 @theme {
   --color-bg: #f3f2f2;
   --color-surface: #eae9e9;
+  --color-neutral-200: #eae7e7;
   --color-ink: #201e1d;
   --color-accent: #ec3013;
   --color-accent-600: #dd2b0f;
@@ -14,6 +15,7 @@
 }
 
 @layer base {
+  html { scroll-behavior: smooth; }
   body {
     @apply bg-bg text-ink font-mono text-[15px] leading-[1.55];
     text-wrap: pretty;
