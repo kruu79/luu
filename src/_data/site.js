@@ -1,5 +1,5 @@
 export default {
-  title: "laivinsunupite.lv",
+  title: "Laiviņš un Upīte",
   year: new Date().getFullYear(),
   defaultLang: "lv",
   languages: {

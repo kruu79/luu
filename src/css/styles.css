@@ -1,2 +1,46 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+
+/* Tokens from the Modernist design system (assets/design/luu.zip). */
+@theme {
+  --color-bg: #f3f2f2;
+  --color-surface: #eae9e9;
+  --color-ink: #201e1d;
+  --color-accent: #ec3013;
+  --color-accent-600: #dd2b0f;
+  --color-accent-700: #ae1800;
+  --color-divider: color-mix(in srgb, #201e1d 40%, transparent);
+  --font-mono: "IBM Plex Mono", Georgia, serif;
+}
+
+@layer base {
+  body {
+    @apply bg-bg text-ink font-mono text-[15px] leading-[1.55];
+    text-wrap: pretty;
+  }
+  h1, h2, h3, h4 { @apply font-bold; letter-spacing: -0.02em; }
+  a { color: inherit; text-decoration: none; }
+  a:not(.btn):hover {
+    @apply text-accent underline decoration-2 underline-offset-4;
+  }
+  :focus { outline: none; }
+  :focus-visible { @apply outline-2 outline-offset-2 outline-accent; }
+  ::selection { background: color-mix(in srgb, var(--color-accent) 30%, transparent); }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-start gap-1.5 px-[14px] py-2
+      font-bold text-sm leading-tight cursor-pointer border border-transparent;
+  }
+  .btn-primary { @apply bg-accent text-bg hover:bg-accent-600 active:bg-accent-700; }
+  .btn-ghost {
+    @apply text-accent px-1;
+    &:hover { background: color-mix(in srgb, var(--color-accent) 10%, transparent); }
+    &:active { background: color-mix(in srgb, var(--color-accent) 18%, transparent); }
+  }
+  .grayscale-photo { filter: grayscale(1) contrast(1.08); }
+}
+
+/* A utility (not a component) so it works with variants like max-md:. */
+@utility btn-block { @apply w-full min-h-12 text-left; }

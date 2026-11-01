@@ -1,0 +1,15 @@
+---
+layout: layouts/base.njk
+---
+<main class="flex-1 relative min-h-[560px] border-b-2 border-divider">
+  {# Photo by Amber Kipp on Unsplash #}
+  <img src="{{ heroImage }}" alt="{{ heroAlt }}" class="grayscale-photo absolute inset-0 w-full h-full object-cover">
+  <div class="absolute left-0 right-0 md:right-auto bottom-0 md:max-w-[760px] bg-bg border-t-2 md:border-r-2 border-divider
+    px-5 pt-7 pb-8 md:px-[clamp(20px,5vw,72px)] md:py-[clamp(28px,4vw,56px)] flex flex-col gap-6">
+    <h1 class="m-0 text-[28px] leading-[1.12] md:text-[clamp(34px,4.4vw,60px)] md:leading-[1.04]">{{ headline }}</h1>
+    <div class="flex flex-col md:flex-row md:flex-wrap gap-2.5 md:gap-3">
+      <a href="#kontakti" class="btn btn-primary max-md:btn-block">{{ i18n[lang].cta }}</a>
+      <a href="#pakalpojumi" class="btn btn-ghost max-md:btn-block">{{ i18n[lang].nav.services }}</a>
+    </div>
+  </div>
+</main>

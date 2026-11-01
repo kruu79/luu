@@ -6,3 +6,4 @@ Static multilingual (LV/EN, maybe RU) website for laivinsunupite.lv, hosted on G
 - `src/<lang>/` holds page content, `src/_includes/layouts/` holds templates.
 - `assets/` holds client source material (gitignored, never commit it); `docs/todo.md` is the backlog.
 - `npm start` runs the dev server, `npm run build` builds to `_site/`.
+- Design reference: `assets/design/luu.zip` (Claude Design export, "Modernist" design system, IBM Plex Mono); tokens live in `src/css/styles.css`.

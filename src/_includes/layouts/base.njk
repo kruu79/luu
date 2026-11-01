@@ -1,39 +1,83 @@
+{%- set t = i18n[lang] -%}
+{%- set navItems = [
+  ["#par-mums", t.nav.about],
+  ["#pakalpojumi", t.nav.services],
+  ["#projekti", t.nav.projects],
+  ["#kontakti", t.nav.contacts]
+] -%}
 <!doctype html>
 <html lang="{{ lang or site.defaultLang }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% if title %}{{ title }} · {% endif %}{{ site.title }}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap">
   <link rel="stylesheet" href="/css/styles.css">
   {%- for link in page.url | locale_links %}
   <link rel="alternate" hreflang="{{ link.lang }}" href="{{ link.url }}">
   {%- endfor %}
 </head>
-<body class="min-h-screen flex flex-col bg-white text-slate-800 {{ bodyClass }}">
-  <header class="border-b border-slate-200">
-    <div class="mx-auto max-w-4xl px-4 py-4 flex items-center justify-between">
-      <a href="/{{ lang }}/" class="font-semibold text-lg">{{ site.title }}</a>
-      <nav class="flex gap-3 text-sm">
-        <span class="font-semibold">{{ site.languages[lang].label }}</span>
+<body class="min-h-screen flex flex-col {{ bodyClass }}">
+  <header class="relative flex items-center justify-between gap-6 h-16 md:h-auto px-5 md:px-[clamp(20px,5vw,72px)] md:py-[22px] border-b-2 border-divider">
+    <a href="/{{ lang }}/" class="font-bold text-[17px] md:text-xl tracking-[-0.01em] whitespace-nowrap">{{ site.title }}</a>
+
+    <nav class="hidden md:flex items-center gap-[clamp(16px,3vw,40px)] text-[15px]">
+      {%- for item in navItems %}
+      <a href="{{ item[0] }}">{{ item[1] }}</a>
+      {%- endfor %}
+      <span class="flex items-center gap-1.5 pl-[clamp(8px,1.5vw,16px)] border-l-2 border-divider">
+        <span class="px-0.5 py-1 font-bold text-accent" aria-current="true">{{ site.languages[lang].label }}</span>
         {%- for link in page.url | locale_links %}
-        <a href="{{ link.url }}" hreflang="{{ link.lang }}" lang="{{ link.lang }}" class="text-slate-500 hover:text-slate-900">{{ site.languages[link.lang].label }}</a>
+        <span aria-hidden="true">/</span>
+        <a href="{{ link.url }}" hreflang="{{ link.lang }}" lang="{{ link.lang }}" class="px-0.5 py-1 text-ink/60">{{ site.languages[link.lang].label }}</a>
         {%- endfor %}
-      </nav>
-    </div>
+      </span>
+    </nav>
+
+    <button type="button" id="menu-toggle" aria-label="{{ t.menu }}" aria-expanded="false" aria-controls="mobile-menu"
+      class="md:hidden group relative w-11 h-11 -mr-2.5 cursor-pointer">
+      <span class="absolute right-2.5 top-[15px] w-6 h-0.5 bg-ink transition group-aria-expanded:top-[21px] group-aria-expanded:rotate-45"></span>
+      <span class="absolute right-2.5 top-[27px] w-6 h-0.5 bg-ink transition group-aria-expanded:top-[21px] group-aria-expanded:-rotate-45"></span>
+    </button>
   </header>
 
-  {% if heroImage %}
-  <img src="{{ heroImage }}" alt="{{ heroAlt }}" class="w-full max-h-96 object-cover">
-  {% endif %}
+  <div id="mobile-menu" hidden class="md:hidden fixed inset-x-0 top-16 bottom-0 z-20 bg-bg flex flex-col overflow-y-auto">
+    {%- for item in navItems %}
+    <a href="{{ item[0] }}" class="flex items-center min-h-[72px] px-5 border-b-2 border-divider text-2xl font-bold">{{ item[1] }}</a>
+    {%- endfor %}
+    <div class="flex items-center gap-1 p-5 text-[17px]">
+      <span class="grid place-items-center min-w-11 min-h-11 border-2 border-divider bg-ink text-bg" aria-current="true">{{ site.languages[lang].label }}</span>
+      {%- for link in page.url | locale_links %}
+      <a href="{{ link.url }}" hreflang="{{ link.lang }}" lang="{{ link.lang }}" class="grid place-items-center min-w-11 min-h-11 border-2 border-divider">{{ site.languages[link.lang].label }}</a>
+      {%- endfor %}
+    </div>
+    <div class="mt-auto p-5 flex flex-col gap-4">
+      <a href="#kontakti" class="btn btn-primary btn-block">{{ t.cta }}</a>
+      <span class="text-[13px] tracking-[0.08em] uppercase text-ink/70">{{ t.tagline }}</span>
+    </div>
+  </div>
 
-  <main class="flex-1 mx-auto w-full max-w-4xl px-4 py-10">
-    <article class="prose prose-slate max-w-none">
-      {{ content | safe }}
-    </article>
-  </main>
+  {{ content | safe }}
 
-  <footer class="border-t border-slate-200 text-sm text-slate-500">
-    <div class="mx-auto max-w-4xl px-4 py-6">© {{ site.year }} {{ site.title }}</div>
+  <footer class="flex justify-between gap-4 flex-wrap px-5 md:px-[clamp(20px,5vw,72px)] py-[18px] text-[13px] tracking-[0.08em] uppercase text-ink/70">
+    {%- for item in t.footer %}
+    <span>{{ item }}</span>
+    {%- endfor %}
   </footer>
+
+  <script>
+    (() => {
+      const toggle = document.getElementById("menu-toggle");
+      const menu = document.getElementById("mobile-menu");
+      const setOpen = (open) => {
+        toggle.setAttribute("aria-expanded", String(open));
+        menu.hidden = !open;
+      };
+      toggle.addEventListener("click", () => setOpen(menu.hidden));
+      menu.addEventListener("click", (e) => { if (e.target.closest("a")) setOpen(false); });
+    })();
+  </script>
 </body>
 </html>
